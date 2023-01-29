@@ -18,11 +18,11 @@ async function chalk() {
 const checkPathExists = async (path) => {
     if (!fs.existsSync(path)) {
         console.log((await chalk()).red("❌ Path does not exist \n"))
-        spinner.reset()
+        // spinner.reset()
         return
     }
 
-    spinner.start()
+    // spinner.start()
     workingPath = path
     getChangedFiles()
 }
@@ -33,7 +33,7 @@ const getChangedFiles = async () => {
 
     if (!changedFiles) {
         console.log((await chalk()).blueBright("🤓 No changes found \n"))
-        spinner.reset()
+        // spinner.reset()
         return
     }
 
@@ -65,19 +65,23 @@ const generateCommitMessage = async () => {
 
     await axios(config)
         .then((response) => {
-            commitChanges(response.data.payload)
+            // let response_ = 
+            // console.log(response_.toString())
+            // console.log(response.data.payload.toString())
+            commitChanges(response.data.payload.toString())
+            // console.log((await chalk()).yellow(`✨ ${message}`))
         })
         .catch(async (error) => {
             console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
-            spinner.error()
+            // spinner.error()
         })
 }
 
 /**  Commits changes */
 const commitChanges = async (message) => {
-    console.log((await chalk()).yellow(`✨ ${message}`))
     execSync(`git -C ${workingPath} commit -m "${message}"`)
-    spinner.success()
+    console.log((await chalk()).yellow("✨", `${message}`))
+    // spinner.success()
 }
 
 
