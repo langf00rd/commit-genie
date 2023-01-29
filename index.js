@@ -37,8 +37,7 @@ const getChangedFiles = async () => {
         return
     }
 
-    console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
-    spinner.start()
+    console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles} \n Generating commit message...`))
     getChanges()
 }
 
