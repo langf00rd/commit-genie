@@ -3,7 +3,6 @@ const program = require('commander')
 const fs = require('fs')
 const { exec, execSync } = require('child_process')
 const axios = require('axios')
-const { createSpinner } = require("nanospinner")
 
 program
     .name("commit-genie")
@@ -25,8 +24,7 @@ program
 
 let newGitChanges,
     commitMessage,
-    workingPath,
-    spinner = createSpinner('Generating commit message \n')
+    workingPath
 
 async function chalk() {
     return (await import("chalk")).default
@@ -36,11 +34,9 @@ async function chalk() {
 const checkPathExists = async (path) => {
     if (!fs.existsSync(path)) {
         console.log((await chalk()).red("❌ Path does not exist \n"))
-        spinner.reset()
         return
     }
 
-    // spinner.start()
     workingPath = path
     getChangedFiles()
 }
@@ -51,7 +47,6 @@ const getChangedFiles = async () => {
 
     if (!changedFiles) {
         console.log((await chalk()).blueBright("🤓 No changes found \n"))
-        spinner.reset()
         return
     }
 
@@ -85,9 +80,7 @@ const generateCommitMessage = async () => {
     await axios(config)
         .then(response => { commitChanges(response.data.payload.toString()) })
         .catch(async error => {
-            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
-            spinner.error()
-            spinner.reset()
+            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error} \n`))
         })
 }
 
@@ -95,7 +88,6 @@ const generateCommitMessage = async () => {
 const commitChanges = async (message) => {
     execSync(`git -C ${workingPath} commit -m "${message}"`)
     console.log((await chalk()).green(`${message}\n`))
-    spinner.success()
 }
 
 program.parse(process.argv)
