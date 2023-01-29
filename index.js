@@ -57,23 +57,47 @@ const stageChanges = async () => {
 
 /** Generates commit message with GPT-3 */
 const generateCommitMessage = async () => {
-    try {
-        let commitMessage_ = await axios.post("http://localhost:3212/generate-commit-message", {
-            // let commitMessage_ = await axios.post("https://ai-server-qjof.onrender.com/generate-commit-message", {
-            code: newGitChanges
+    // try {
+    //     // let commitMessage_ = await axios.post("http://localhost:3212/generate-commit-message", {
+    //     //     // let commitMessage_ = await axios.post("https://ai-server-qjof.onrender.com/generate-commit-message", {
+    //     //     code: newGitChanges
+    //     // })
+
+
+    //     // console.log(commitMessage_.data.toString())
+    //     // commitMessage = commitMessage_.data.payload.toString()
+    //     // commitChanges()
+    // } catch (err) {
+
+    // } 
+
+    var data = JSON.stringify({
+        "code": newGitChanges
+    });
+
+    var config = {
+        method: 'post',
+        url: 'http://localhost:3212/generate-commit-message',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: data
+    };
+
+    await axios(config)
+        .then(function (response) {
+            commitChanges(response.data.payload)
         })
+        .catch(async (error) => {
+            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
+        });
 
-
-        console.log(commitMessage_.data.toString())
-        // commitChanges()
-    } catch (err) {
-
-    }
 }
 
 /**  Commits changes */
-const commitChanges = async () => {
-    execSync(`git -C ${workingPath} commit -m "${commitMessage}"`)
+const commitChanges = async (message) => {
+    console.log((await chalk()).yellow(`✨ ${message.toString()}`))
+    execSync(`git -C ${workingPath} commit -m "${message}"`)
     spinner.success()
 }
 
