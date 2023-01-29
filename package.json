@@ -4,7 +4,7 @@
   "main": "index.js",
   "author": "langford-dev",
   "license": "MIT",
-  "description": "AI generated git commit message generator",
+  "description": "AI Git commit message generator 🤖",
   "repository": "https://github.com/langford-dev/commit-genie.git",
   "dependencies": {
     "axios": "^1.2.5",
