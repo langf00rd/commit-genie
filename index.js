@@ -5,6 +5,24 @@ const { exec, execSync } = require('child_process')
 const axios = require('axios')
 const { createSpinner } = require("nanospinner")
 
+program
+    .name("commit-genie")
+    .version('0.1.0')
+    .description("AI Git commit message generator 🤖")
+
+program
+    .argument('<path-to-repo>')
+    .description("Looks for changes in a local repository and makes a commit for the new changes")
+    .action((repoPath) => {
+        checkPathExists(repoPath)
+    })
+
+program
+    .command('listen')
+    .description("listens for new changes in a repo")
+    .action(() => {
+    })
+
 let newGitChanges,
     commitMessage,
     workingPath,
@@ -18,7 +36,7 @@ async function chalk() {
 const checkPathExists = async (path) => {
     if (!fs.existsSync(path)) {
         console.log((await chalk()).red("❌ Path does not exist \n"))
-        // spinner.reset()
+        spinner.reset()
         return
     }
 
@@ -38,7 +56,7 @@ const getChangedFiles = async () => {
     }
 
     console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
-    console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
+    console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...\n`))
     getChanges()
 }
 
@@ -76,27 +94,8 @@ const generateCommitMessage = async () => {
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${workingPath} commit -m "${message}"`)
-    console.log((await chalk()).green(message))
+    console.log((await chalk()).green(`${message}\n`))
     spinner.success()
 }
-
-
-program
-    .name("commit-genie")
-    .version('0.1.0')
-    .description("AI Git commit message generator 🤖")
-
-program
-    .argument('<path-to-repo>')
-    .description("Looks for changes in a local repository and makes a commit for the new changes")
-    .action((repoPath) => {
-        checkPathExists(repoPath)
-    })
-
-program
-    .command('listen')
-    .description("listens for new changes in a repo")
-    .action(() => {
-    })
 
 program.parse(process.argv)
