@@ -106,7 +106,7 @@ const commitChanges = async () => {
 program
     .name("commit-genie")
     .version('0.1.0')
-    .description("AI generated git commit message generator 🤖")
+    .description("AI Git commit message generator 🤖")
 
 program
     .command('run')
