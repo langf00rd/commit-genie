@@ -33,11 +33,12 @@ const getChangedFiles = async () => {
 
     if (!changedFiles) {
         console.log((await chalk()).blueBright("🤓 No changes found \n"))
-        // spinner.reset()
+        spinner.reset()
         return
     }
 
-    console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles} \n Generating commit message...`))
+    console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
+    console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
     getChanges()
 }
 
