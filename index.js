@@ -75,7 +75,7 @@ const generateCommitMessage = async () => {
 
 /**  Commits changes */
 const commitChanges = async (message) => {
-    console.log((await chalk()).yellow(`✨ ${message.toString()}`))
+    console.log((await chalk()).yellow(`✨ ${message}`))
     execSync(`git -C ${workingPath} commit -m "${message}"`)
     spinner.success()
 }
