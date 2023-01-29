@@ -38,6 +38,7 @@ const getChangedFiles = async () => {
     }
 
     console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
+    spinner.start()
     getChanges()
 }
 
@@ -68,6 +69,7 @@ const generateCommitMessage = async () => {
         .catch(async error => {
             console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
             spinner.error()
+            spinner.reset()
         })
 }
 
@@ -75,7 +77,7 @@ const generateCommitMessage = async () => {
 const commitChanges = async (message) => {
     execSync(`git -C ${workingPath} commit -m "${message}"`)
     console.log((await chalk()).green(message))
-    // spinner.success()
+    spinner.success()
 }
 
 
