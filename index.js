@@ -50,7 +50,6 @@ const getChanges = async () => {
 
 /** Stages changes */
 const stageChanges = async () => {
-    console.log("staging", workingPath)
     execSync(`git -C ${workingPath} add .`)
     generateCommitMessage()
 }
@@ -65,7 +64,7 @@ const generateCommitMessage = async () => {
     }
 
     await axios(config)
-        .then(function (response) {
+        .then((response) => {
             commitChanges(response.data.payload)
         })
         .catch(async (error) => {
