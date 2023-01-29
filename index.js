@@ -23,7 +23,7 @@ program
     })
 
 let newGitChanges,
-    workingPath
+    repoPath
 
 async function chalk() {
     return (await import("chalk")).default
@@ -36,13 +36,13 @@ const checkPathExists = async (path) => {
         return
     }
 
-    workingPath = path
+    repoPath = path
     getChangedFiles()
 }
 
 /**  Gets all files with new changes */
 const getChangedFiles = async () => {
-    let changedFiles = execSync(`git -C ${workingPath} diff --name-only`).toString()
+    let changedFiles = execSync(`git -C ${repoPath} diff --name-only`).toString()
 
     if (!changedFiles) {
         console.log((await chalk()).blueBright("🤓 No changes found \n"))
@@ -56,14 +56,14 @@ const getChangedFiles = async () => {
 
 /**  Gets all new changes in repo */
 const getChanges = async () => {
-    let changes = execSync(`git -C ${workingPath} diff`).toString()
+    let changes = execSync(`git -C ${repoPath} diff`).toString()
     newGitChanges = changes
     stageChanges()
 }
 
 /** Stages changes */
 const stageChanges = async () => {
-    execSync(`git -C ${workingPath} add .`)
+    execSync(`git -C ${repoPath} add .`)
     generateCommitMessage()
 }
 
@@ -86,7 +86,7 @@ const generateCommitMessage = async () => {
 
 /**  Commits changes */
 const commitChanges = async (message) => {
-    execSync(`git -C ${workingPath} commit -m "${message}"`)
+    execSync(`git -C ${repoPath} commit -m "${message}"`)
     console.log((await chalk()).green(`${message}\n`))
 }
 
