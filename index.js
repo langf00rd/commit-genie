@@ -57,32 +57,12 @@ const stageChanges = async () => {
 
 /** Generates commit message with GPT-3 */
 const generateCommitMessage = async () => {
-    // try {
-    //     // let commitMessage_ = await axios.post("http://localhost:3212/generate-commit-message", {
-    //     //     // let commitMessage_ = await axios.post("https://ai-server-qjof.onrender.com/generate-commit-message", {
-    //     //     code: newGitChanges
-    //     // })
-
-
-    //     // console.log(commitMessage_.data.toString())
-    //     // commitMessage = commitMessage_.data.payload.toString()
-    //     // commitChanges()
-    // } catch (err) {
-
-    // } 
-
-    var data = JSON.stringify({
-        "code": newGitChanges
-    });
-
-    var config = {
+    let config = {
         method: 'post',
-        url: 'http://localhost:3212/generate-commit-message',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        data: data
-    };
+        url: 'http://ai-server-qjof.onrender.com/generate-commit-message',
+        headers: { 'Content-Type': 'application/json' },
+        data: JSON.stringify({ "code": newGitChanges })
+    }
 
     await axios(config)
         .then(function (response) {
@@ -90,8 +70,8 @@ const generateCommitMessage = async () => {
         })
         .catch(async (error) => {
             console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
-        });
-
+            spinner.error()
+        })
 }
 
 /**  Commits changes */
