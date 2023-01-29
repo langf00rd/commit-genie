@@ -42,7 +42,7 @@ const getChangedFiles = async () => {
         await getChanges()
     } catch (err) {
         // console.log((await chalk()).red("❌ Error occured:", err.message))
-        spinner.error()
+        // spinner.error()
     }
 }
 
@@ -54,7 +54,7 @@ const getChanges = async () => {
         await stageChanges()
     } catch (err) {
         // console.log((await chalk()).red("❌ Error occured:", err.message))
-        spinner.error()
+        // spinner.error()
     }
 
 }
@@ -67,7 +67,7 @@ const stageChanges = async () => {
         await generateCommitMessage()
     } catch (err) {
         // console.log((await chalk()).red("❌ Error occured:", err.message))
-        spinner.error()
+        // spinner.error()
     }
 
 }
@@ -80,11 +80,9 @@ const generateCommitMessage = async () => {
             code: newGitChanges
         })
 
-        if (commitMessage_.data.payload) {
-            commitMessage = commitMessage_.data.payload
-            console.log((await chalk()).green(`✨ ${commitMessage_.data.payload}`))
-            await commitChanges()
-        }
+        commitMessage = commitMessage_.data.payload
+        console.log((await chalk()).green(`✨ ${commitMessage_.data.payload}`))
+        await commitChanges()
     } catch (err) {
         console.log((await chalk()).red("❌ Error occured generating commit message:", err.message))
         spinner.error()
@@ -98,7 +96,7 @@ const commitChanges = async () => {
         spinner.success()
     } catch (err) {
         // console.log((await chalk()).red("❌ Error occured:", err.message))
-        spinner.error()
+        // spinner.error()
     }
 }
 
