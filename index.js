@@ -80,7 +80,7 @@ const generateCommitMessage = async () => {
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${workingPath} commit -m "${message}"`)
-    console.log((await chalk()).yellow("✨", `${message}`))
+    console.log((await chalk()).green("✨", `${message}`))
     // spinner.success()
 }
 
