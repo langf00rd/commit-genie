@@ -72,7 +72,6 @@ const generateCommitMessage = async () => {
     let config = {
         method: 'post',
         url: 'http://localhost:3212/generate-commit-message',
-        // url: 'http://ai-server-qjof.onrender.com/generate-commit-message',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({ "code": newGitChanges })
     }
