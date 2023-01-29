@@ -109,7 +109,6 @@ program
     .description("AI Git commit message generator 🤖")
 
 program
-    .command('run')
     .argument('<path-to-repo>')
     .description("Looks for changes in a local repository and makes a commit for the new changes")
     .action((repoPath) => {
