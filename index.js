@@ -6,7 +6,7 @@ const axios = require('axios')
 
 program
     .name("commit-genie")
-    .version('0.1.2')
+    .version('0.1.3')
     .description("AI Git commit message generator 🤖")
 
 program
