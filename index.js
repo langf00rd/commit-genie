@@ -64,23 +64,17 @@ const generateCommitMessage = async () => {
     }
 
     await axios(config)
-        .then((response) => {
-            // let response_ = 
-            // console.log(response_.toString())
-            // console.log(response.data.payload.toString())
-            commitChanges(response.data.payload.toString())
-            // console.log((await chalk()).yellow(`✨ ${message}`))
-        })
-        .catch(async (error) => {
+        .then(response => { commitChanges(response.data.payload.toString()) })
+        .catch(async error => {
             console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
-            // spinner.error()
+            spinner.error()
         })
 }
 
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${workingPath} commit -m "${message}"`)
-    console.log((await chalk()).green("✨", `${message}`))
+    console.log((await chalk()).green(message))
     // spinner.success()
 }
 
