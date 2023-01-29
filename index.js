@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander')
 const fs = require('fs')
-const { exec, execSync } = require('child_process')
+const { execSync } = require('child_process')
 const axios = require('axios')
 
 program
@@ -23,7 +23,6 @@ program
     })
 
 let newGitChanges,
-    commitMessage,
     workingPath
 
 async function chalk() {
