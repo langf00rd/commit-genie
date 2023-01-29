@@ -24,52 +24,35 @@ const checkPathExists = async (path) => {
 
     spinner.start()
     workingPath = path
-    await getChangedFiles()
+    getChangedFiles()
 }
 
 /**  Gets all files with new changes */
 const getChangedFiles = async () => {
-    try {
-        let changedFiles = execSync(`git -C ${workingPath} diff --name-only`).toString()
+    let changedFiles = execSync(`git -C ${workingPath} diff --name-only`).toString()
 
-        if (!changedFiles) {
-            console.log((await chalk()).blueBright("🤓 No changes found \n"))
-            spinner.reset()
-            return
-        }
-
-        console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
-        await getChanges()
-    } catch (err) {
-        // console.log((await chalk()).red("❌ Error occured:", err.message))
-        // spinner.error()
+    if (!changedFiles) {
+        console.log((await chalk()).blueBright("🤓 No changes found \n"))
+        spinner.reset()
+        return
     }
+
+    console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
+    getChanges()
 }
 
 /**  Gets all new changes in repo */
 const getChanges = async () => {
-    try {
-        let changes = execSync(`git -C ${workingPath} diff`).toString()
-        newGitChanges = changes
-        await stageChanges()
-    } catch (err) {
-        // console.log((await chalk()).red("❌ Error occured:", err.message))
-        // spinner.error()
-    }
-
+    let changes = execSync(`git -C ${workingPath} diff`).toString()
+    newGitChanges = changes
+    stageChanges()
 }
 
 /** Stages changes */
 const stageChanges = async () => {
-    try {
-        console.log("staging", workingPath)
-        execSync(`git -C ${workingPath} add .`)
-        await generateCommitMessage()
-    } catch (err) {
-        // console.log((await chalk()).red("❌ Error occured:", err.message))
-        // spinner.error()
-    }
-
+    console.log("staging", workingPath)
+    execSync(`git -C ${workingPath} add .`)
+    generateCommitMessage()
 }
 
 /** Generates commit message with GPT-3 */
@@ -80,24 +63,18 @@ const generateCommitMessage = async () => {
             code: newGitChanges
         })
 
-        commitMessage = commitMessage_.data.payload
-        console.log((await chalk()).green(`✨ ${commitMessage_.data.payload}`))
-        await commitChanges()
+
+        console.log(commitMessage_.data.toString())
+        // commitChanges()
     } catch (err) {
-        console.log((await chalk()).red("❌ Error occured generating commit message:", err.message))
-        spinner.error()
+
     }
 }
 
 /**  Commits changes */
 const commitChanges = async () => {
-    try {
-        execSync(`git -C ${workingPath} commit -m "${commitMessage}"`)
-        spinner.success()
-    } catch (err) {
-        // console.log((await chalk()).red("❌ Error occured:", err.message))
-        // spinner.error()
-    }
+    execSync(`git -C ${workingPath} commit -m "${commitMessage}"`)
+    spinner.success()
 }
 
 
