@@ -49,7 +49,7 @@ const getChangedFiles = async () => {
         return
     }
 
-    console.log((await chalk()).yellow(`🔎 Found changes in files: ${changedFiles}`))
+    console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles.toString()}\n`))
     console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...\n`))
     getChanges()
 }
