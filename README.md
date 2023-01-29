@@ -28,7 +28,7 @@ npm i -g commit-genie
 To use Commit Genie, simply run the following command in your terminal and specify the repository path:
 
 ```
-npx commit-genie run /path/to/repo
+npx commit-genie /path/to/repo
 ```
 
 <!-- Contributing
