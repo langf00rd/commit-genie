@@ -75,8 +75,8 @@ const stageChanges = async () => {
 /** Generates commit message with GPT-3 */
 const generateCommitMessage = async () => {
     try {
-        // let commitMessage_ = await axios.post("http://localhost:3212/generate-commit-message", {
-        let commitMessage_ = await axios.post("https://ai-server-qjof.onrender.com/generate-commit-message", {
+        let commitMessage_ = await axios.post("http://localhost:3212/generate-commit-message", {
+            // let commitMessage_ = await axios.post("https://ai-server-qjof.onrender.com/generate-commit-message", {
             code: newGitChanges
         })
 
