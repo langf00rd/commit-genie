@@ -1,6 +1,6 @@
 {
   "name": "commit-genie",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "langford-dev",
   "main": "index.js",
   "license": "MIT",
