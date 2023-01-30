@@ -11,6 +11,7 @@ program
 
 program
     .argument("<path-to-repo>")
+    .argument("[auto-commit]", "Auto commit on message generation", true)
     .description("Looks for changes in a local repository and makes a commit for the new changes")
     .action((repoPath) => {
         checkPathExists(repoPath)
