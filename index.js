@@ -111,7 +111,7 @@ const generateCommitMessage = async () => {
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${repoPath} commit -m "${message}"`)
-    console.log((await chalk()).green(response_))
+    console.log((await chalk()).green(message))
 }
 
 program.parse(process.argv)
