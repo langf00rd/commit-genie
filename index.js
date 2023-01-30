@@ -32,7 +32,7 @@ async function chalk() {
 /** Checks if path user passed exists */
 const checkPathExists = async (path) => {
     if (!fs.existsSync(path)) {
-        console.log((await chalk()).red("❌ Path does not exist \n"))
+        console.log((await chalk()).red("❌ Path does not exist "))
         return
     }
 
@@ -45,12 +45,12 @@ const getChangedFiles = async () => {
     let changedFiles = execSync(`git -C ${repoPath} diff --name-only`).toString()
 
     if (!changedFiles) {
-        console.log((await chalk()).blueBright("🤓 No changes found \n"))
+        console.log((await chalk()).blueBright("🤓 No changes found "))
         return
     }
 
-    console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles.toString()}\n`))
-    console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...\n`))
+    console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles.toString()}`))
+    console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
     getChanges()
 }
 
@@ -71,8 +71,8 @@ const stageChanges = async () => {
 const generateCommitMessage = async () => {
     let config = {
         method: 'post',
-        // url: 'http://localhost:3212/generate-commit-message',
-        url: 'http://ai-server-qjof.onrender.com/generate-commit-message',
+        url: 'http://localhost:3212/generate-commit-message',
+        // url: 'http://ai-server-qjof.onrender.com/generate-commit-message',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({ "code": newGitChanges })
     }
@@ -80,14 +80,14 @@ const generateCommitMessage = async () => {
     await axios(config)
         .then(response => { commitChanges(response.data.payload.toString()) })
         .catch(async error => {
-            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error} \n`))
+            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error} `))
         })
 }
 
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${repoPath} commit -m "${message}"`)
-    console.log((await chalk()).green(`${message}\n`))
+    console.log((await chalk()).green(`${message}`))
 }
 
 program.parse(process.argv)
