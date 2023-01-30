@@ -94,10 +94,7 @@ const generateCommitMessage = async () => {
             let response_ = response.data.payload.toString().replaceAll("\n\n", "").replaceAll("Commit message: ", "").replaceAll("Commit: ", "")
 
             if (!autoCommit) {
-                console.log(
-                    "👉",
-                    (await chalk()).greenBright(response_)
-                )
+                console.log("👉", (await chalk()).greenBright(response_))
                 return
             }
 
@@ -111,7 +108,7 @@ const generateCommitMessage = async () => {
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${repoPath} commit -m "${message}"`)
-    console.log((await chalk()).green(message))
+    console.log("👉", (await chalk()).greenBright(message))
 }
 
 program.parse(process.argv)
