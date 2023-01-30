@@ -14,7 +14,6 @@ program
     .argument("[auto-commit]", "Auto commit on message generation", "true")
     .description("Looks for changes in a local repository and makes a commit for the new changes")
     .action((repoPath, autoCommit_) => {
-        console.log(repoPath, autoCommit_)
         if (autoCommit_ === "true") autoCommit = true
         else autoCommit = false
 
@@ -102,7 +101,7 @@ const generateCommitMessage = async () => {
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${repoPath} commit -m "${message}"`)
-
+    console.log((await chalk()).green(response_))
 }
 
 program.parse(process.argv)
