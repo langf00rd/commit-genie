@@ -11,9 +11,13 @@ program
 
 program
     .argument("<path-to-repo>")
-    .argument("[auto-commit]", "Auto commit on message generation", true)
+    .argument("[auto-commit]", "Auto commit on message generation", "true")
     .description("Looks for changes in a local repository and makes a commit for the new changes")
-    .action((repoPath) => {
+    .action((repoPath, autoCommit_) => {
+        console.log(repoPath, autoCommit_)
+        if (autoCommit_ === "true") autoCommit = true
+        else autoCommit = false
+
         checkPathExists(repoPath)
     })
 
@@ -24,7 +28,8 @@ program
     })
 
 let newGitChanges,
-    repoPath
+    repoPath,
+    autoCommit
 
 async function chalk() {
     return (await import("chalk")).default
@@ -33,7 +38,7 @@ async function chalk() {
 /** Checks if path user passed exists */
 const checkPathExists = async (path) => {
     if (!fs.existsSync(path)) {
-        console.log((await chalk()).red("❌ Path does not exist "))
+        console.log((await chalk()).red("❌ Error:"), "Path does not exist")
         return
     }
 
@@ -52,6 +57,7 @@ const getChangedFiles = async () => {
 
     console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles}`))
     console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
+
     getChanges()
 }
 
@@ -78,7 +84,16 @@ const generateCommitMessage = async () => {
     }
 
     await axios(config)
-        .then(response => { commitChanges(response.data.payload.toString().replaceAll("Commit message: ", "").replaceAll("Commit: ", "")) })
+        .then(async response => {
+            let response_ = response.data.payload.toString().replaceAll("Commit message: ", "").replaceAll("Commit: ", "")
+
+            if (!autoCommit) {
+                console.log((await chalk()).green(response_))
+                return
+            }
+
+            commitChanges(response_)
+        })
         .catch(async error => {
             console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
         })
@@ -87,7 +102,7 @@ const generateCommitMessage = async () => {
 /**  Commits changes */
 const commitChanges = async (message) => {
     execSync(`git -C ${repoPath} commit -m "${message}"`)
-    console.log((await chalk()).green(`${message}`))
+
 }
 
 program.parse(process.argv)
