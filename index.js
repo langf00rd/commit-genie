@@ -1,23 +1,23 @@
 #!/usr/bin/env node
-const program = require('commander')
-const fs = require('fs')
-const { execSync } = require('child_process')
-const axios = require('axios')
+const program = require("commander")
+const fs = require("fs")
+const { execSync } = require("child_process")
+const axios = require("axios")
 
 program
     .name("commit-genie")
-    .version('0.1.4')
+    .version("0.1.4")
     .description("AI Git commit message generator 🤖")
 
 program
-    .argument('<path-to-repo>')
+    .argument("<path-to-repo>")
     .description("Looks for changes in a local repository and makes a commit for the new changes")
     .action((repoPath) => {
         checkPathExists(repoPath)
     })
 
 program
-    .command('listen')
+    .command("listen")
     .description("listens for new changes in a repo")
     .action(() => {
     })
@@ -45,7 +45,7 @@ const getChangedFiles = async () => {
     let changedFiles = execSync(`git -C ${repoPath} diff --name-only`)
 
     if (!changedFiles) {
-        console.log((await chalk()).blueBright("🤓 No changes found "))
+        console.log((await chalk()).blueBright("🧳 No new changes were found"))
         return
     }
 
@@ -71,15 +71,15 @@ const stageChanges = async () => {
 const generateCommitMessage = async () => {
     let config = {
         method: 'post',
-        url: 'http://localhost:3212/generate-commit-message',
-        headers: { 'Content-Type': 'application/json' },
+        url: "http://localhost:3212/generate-commit-message",
+        headers: { "Content-Type": "application/json" },
         data: JSON.stringify({ "code": newGitChanges })
     }
 
     await axios(config)
         .then(response => { commitChanges(response.data.payload.toString().replaceAll("Commit message: ", "").replaceAll("Commit: ", "")) })
         .catch(async error => {
-            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error} `))
+            console.log((await chalk()).red(`❌ Error occured generating commit message: ${error}`))
         })
 }
 
