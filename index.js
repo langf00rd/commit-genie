@@ -42,7 +42,7 @@ const checkPathExists = async (path) => {
 
 /**  Gets all files with new changes */
 const getChangedFiles = async () => {
-    let changedFiles = execSync(`git -C ${repoPath} diff --name-only`).toString()
+    let changedFiles = execSync(`git -C ${repoPath} diff --name-only`)
 
     if (!changedFiles) {
         console.log((await chalk()).blueBright("🤓 No changes found "))
