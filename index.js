@@ -78,7 +78,7 @@ const generateCommitMessage = async () => {
     }
 
     await axios(config)
-        .then(response => { commitChanges(response.data.payload.toString().replaceAll("Commit message: ", "")) })
+        .then(response => { commitChanges(response.data.payload.toString().replaceAll("Commit message: ", "").replaceAll("Commit: ", "")) })
         .catch(async error => {
             console.log((await chalk()).red(`❌ Error occured generating commit message: ${error} `))
         })
