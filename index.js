@@ -49,7 +49,7 @@ const getChangedFiles = async () => {
         return
     }
 
-    console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles.toString()}`))
+    console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles}`))
     console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
     getChanges()
 }
@@ -71,7 +71,6 @@ const stageChanges = async () => {
 const generateCommitMessage = async () => {
     let config = {
         method: 'post',
-        // url: 'http://ai-server-qjof.onrender.com/generate-commit-message',
         url: 'http://localhost:3212/generate-commit-message',
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify({ "code": newGitChanges })

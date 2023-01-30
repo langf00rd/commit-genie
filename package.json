@@ -1,8 +1,8 @@
 {
   "name": "commit-genie",
   "version": "0.1.3",
-  "main": "index.js",
   "author": "langford-dev",
+  "main": "index.js",
   "license": "MIT",
   "description": "AI Git commit message generator 🤖",
   "repository": "https://github.com/langford-dev/commit-genie.git",
