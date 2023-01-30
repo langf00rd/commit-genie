@@ -37,7 +37,10 @@ async function chalk() {
 /** Checks if path user passed exists */
 const checkPathExists = async (path) => {
     if (!fs.existsSync(path)) {
-        console.log((await chalk()).red("❌ Error:"), "Path does not exist")
+        console.log(
+            (await chalk()).red("❌ Error:"),
+            "Path does not exist"
+        )
         return
     }
 
@@ -50,12 +53,14 @@ const getChangedFiles = async () => {
     let changedFiles = execSync(`git -C ${repoPath} diff --name-only`).toString()
 
     if (!changedFiles) {
-        console.log((await chalk()).blueBright("🛸 No new changes were found"))
+        console.log((await chalk()).blueBright("🌴 No new changes were found"))
         return
     }
 
-    console.log((await chalk()).yellow(`🔎 Found changes in: ${changedFiles}`))
-    console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
+    console.log(
+        (await chalk()).yellow(`🔎 Found changes in: `, changedFiles),
+        (await chalk()).blueBright("🤖 Beep boop generating message...")
+    )
 
     getChanges()
 }
@@ -75,6 +80,8 @@ const stageChanges = async () => {
 
 /** Generates commit message with GPT-3 */
 const generateCommitMessage = async () => {
+    // console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
+
     let config = {
         method: 'post',
         url: "http://localhost:3212/generate-commit-message",
@@ -84,10 +91,13 @@ const generateCommitMessage = async () => {
 
     await axios(config)
         .then(async response => {
-            let response_ = response.data.payload.toString().replaceAll("Commit message: ", "").replaceAll("Commit: ", "")
+            let response_ = response.data.payload.toString().replaceAll("\n\n", "").replaceAll("Commit message: ", "").replaceAll("Commit: ", "")
 
             if (!autoCommit) {
-                console.log((await chalk()).green(response_))
+                console.log(
+                    "👉",
+                    (await chalk()).greenBright(response_)
+                )
                 return
             }
 
