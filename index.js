@@ -16,7 +16,6 @@ program
     .action((repoPath, autoCommit_) => {
         if (autoCommit_ === "true") autoCommit = true
         else autoCommit = false
-
         checkPathExists(repoPath)
     })
 
@@ -80,8 +79,6 @@ const stageChanges = async () => {
 
 /** Generates commit message with GPT-3 */
 const generateCommitMessage = async () => {
-    // console.log((await chalk()).blueBright(`🤖 Beep boop generating commit message...`))
-
     let config = {
         method: 'post',
         url: "http://localhost:3212/generate-commit-message",
